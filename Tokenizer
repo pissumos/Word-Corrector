@@ -1,0 +1,29 @@
+import sys
+import string
+
+def main():
+
+    dictionary_file = open("dictionary.txt","w+")
+    corpus_file = open(sys.argv[1], "r")
+    contents = corpus_file.readlines()
+    tokens = []
+    token_count = []
+    nofUniqueWords = 0
+    nofWords = 0
+    for line in contents:
+        for word in line.split():
+            word = word.lower().translate(string.maketrans('', ''), string.punctuation)
+            nofWords += 1
+            if word not in tokens:
+                nofUniqueWords += 1
+                tokens.append(word)
+                token_count.append(1)
+            else:
+                token_count[tokens.index(word)] = token_count[tokens.index(word)] + 1
+    dictionary_file.write(str(nofUniqueWords)+"\n")
+    dictionary_file.write(str(nofWords)+"\n")
+    for token in tokens:
+        dictionary_file.write(token + " " + str(token_count[tokens.index(token)])+ "\n")
+
+if __name__ == '__main__':
+    main()
